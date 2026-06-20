@@ -23,7 +23,6 @@ pipeline {
                       docker build -t karthikg2111/vote:v${BUILD_NUMBER} .
                    '''
                 sh "docker push karthikg2111/vote:v${BUILD_NUMBER}"
-
             }
         }
         stage("display"){
@@ -32,5 +31,4 @@ pipeline {
             }
         }
     }
-
 }
