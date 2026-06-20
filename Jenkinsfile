@@ -17,12 +17,12 @@ pipeline {
     stages{
         stage('docker login and push'){
             steps{
-                sh "docker login -u <user_name> -p <password>"
+                sh "docker login -u karthikg2111 -p 7090019616@kmg"
                 sh '''
                       cd vote
-                      docker build -t <user_name>/vote:v${BUILD_NUMBER} .
+                      docker build -t karthikg2111/vote:v${BUILD_NUMBER} .
                    '''
-                sh "docker push <user_name>/vote:v${BUILD_NUMBER}"
+                sh "docker push karthikg2111/vote:v${BUILD_NUMBER}"
 
             }
         }
