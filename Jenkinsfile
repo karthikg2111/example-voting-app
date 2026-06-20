@@ -8,7 +8,7 @@ pipeline {
     }
     parameters{
         string(
-            name: 'BRACH', defaultValue: 'main', description: 'branch to build?'
+            name: 'BRANCH', defaultValue: 'main', description: 'branch to build?'
         )
         choice(
             name: 'ENV', choices: ['qa', 'dev', 'prod'], description: 'environment to build'
