@@ -32,18 +32,22 @@ pipeline{
                 sh "echo starting deployment"
             }
         }
-        stage("windows test"){
-            agent{ label "windows_test"}
-            steps{
-                sh "echo windows testing "
-                sh "sleep 30"
-            }
-        }
-        stage("linux test"){
-            agent{ label "linux_test"}
-            steps{
-                sh "echo windows testing "
-                sh "sleep 30"
+        stage("parallel execution"){
+            parallel{
+                stage("windows test"){
+                    agent{ label "windows_test"}
+                    steps{
+                        sh "echo windows testing "
+                        sh "sleep 30"
+                    }
+                }
+                stage("linux test"){
+                    agent{ label "linux_test"}
+                    steps{
+                        sh "echo windows testing "
+                        sh "sleep 30"
+                    }
+                }
             }
         }
     }
