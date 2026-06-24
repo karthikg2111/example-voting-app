@@ -1,0 +1,50 @@
+pipeline{
+    agent{label "built-in"}
+    options{
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+        disableConcurrentBuilds(abortPrevious: true)
+        retry(1)
+        timeout(time: 20, unit: 'MINUTES')
+    }
+    parameters{
+        string(
+            name: 'BRACH', defaultValue: 'main', description: 'branch to build?'
+        )
+        choice(
+            name: 'ENV', choices: ['qa', 'dev', 'prod'], description: 'environment to build'
+        )
+    }
+    stages{
+        stage("docker login and push"){
+            agent{ label "docker_login_push"}
+            steps{
+                sh "docker login -u karthik2111 -p 7090019616@kmg"
+                sh  '''
+                    cd vote
+                    docker build -t karthik2111/vote:v${BUILD_NUMBER} .
+                    '''
+                sh "docker push karthik2111/vote:v${BUILD_NUMBER}"
+            }
+        }
+        stage("display"){
+            agent{ label "built-in"}
+            steps{
+                sh "echo starting deployment"
+            }
+        }
+        stage("windows test"){
+            agent{ label "windows_test"}
+            steps{
+                sh "echo windows testing "
+                sh "sleep 30"
+            }
+        }
+        stage("linux test"){
+            agent{ label "linux_test"}
+            steps{
+                sh "echo windows testing "
+                sh "sleep 30"
+            }
+        }
+    }
+}
